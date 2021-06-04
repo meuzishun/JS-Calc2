@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/style.css">
+    <script src="main.js" defer></script>
+    <title>JavaScript Calculator</title>
+</head>
+<body>
+    <div class="wrapper">
+        <div class="calculator-container">
+            <div class="display"></div>
+            <div class="misc">
+                <div class="misc__btn--clear input btn" data-misc="clear">AC</div>
+                <div class="misc__btn--sign input btn" data-misc="sign">&PlusMinus;</div>
+                <div class="misc__btn--pcnt input btn" data-misc="percentage">&percnt;</div>
+            </div>
+            <div class="digits">
+                <div class="digits__btn--seven digit btn" data-digit="7">7</div>
+                <div class="digits__btn--eight digit btn" data-digit="8">8</div>
+                <div class="digits__btn--nine digit btn" data-digit="9">9</div>
+                <div class="digits__btn--four digit btn" data-digit="4">4</div>
+                <div class="digits__btn--five digit btn" data-digit="5">5</div>
+                <div class="digits__btn--six digit btn" data-digit="6">6</div>
+                <div class="digits__btn--one digit btn" data-digit="1">1</div>
+                <div class="digits__btn--two digit btn" data-digit="2">2</div>
+                <div class="digits__btn--three digit btn" data-digit="3">3</div>
+                <div class="digits__btn--zero digit btn" data-digit="0">0</div>
+                <div class="digits__btn--dot digit btn" data-digit=".">.</div>
+            </div>
+            <div class="operators">
+                <div class="operators__divide operator btn" data-operation="divide">&divide;</div>
+                <div class="operators__times operator btn" data-operation="times">&times;</div>
+                <div class="operators__minus operator btn" data-operation="minus">&minus;</div>
+                <div class="operators__plus operator btn" data-operation="plus">&plus;</div>
+                <div class="operators__equals operator btn" data-operation="equals">&equals;</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -57,27 +57,51 @@ calculator = {
         }
         if (misc === 'sign') {
             console.log(`processing ${misc}`);
-            calculator.displayValue *= -1;
-            calculator.updateDisplay();
+            if (calculator.displayValue != 0) {
+                calculator.displayValue *= -1;
+                calculator.updateDisplay();
+            }
         }
         if (misc === 'percentage') {
             console.log(`processing ${misc}`);
-            calculator.displayValue *= 0.01;
-            calculator.updateDisplay();
+            if (calculator.displayValue != 0) {
+                calculator.displayValue *= 0.01;
+                calculator.updateDisplay();
+            }
         }
     },
     processOperation: function(operation) {
-        if (calculator.operation === null) {
+        // if (calculator.operation === null) {
+        //     calculator.operand1 = calculator.displayValue;
+        //     calculator.operation = calculator[operation];
+        //     calculator.displayValue = '0';
+        // } else {
+        //     calculator.operand2 = calculator.displayValue;
+        //     calculator.operation();
+        //     calculator.displayValue = calculator.result;
+        //     calculator.updateDisplay();
+        //     calculator.operation = null;
+        //     calculator.result = null;
+        // }
+        if (operation === 'equals') {
+            if (calculator.operand1) {
+                if (calculator.operation) {
+                    if (!calculator.operand2) {
+                        calculator.operand2 = +calculator.displayValue;
+                    } else {
+                        calculator.operand1 = +calculator.displayValue;
+                    }
+                    calculator.operation();
+                    calculator.displayValue = calculator.result;
+                    calculator.updateDisplay();
+                }
+            }
+        }
+        if (operation !== 'equals') {
             calculator.operand1 = calculator.displayValue;
+            calculator.operand2 = null;
             calculator.operation = calculator[operation];
             calculator.displayValue = '0';
-        } else {
-            calculator.operand2 = calculator.displayValue;
-            calculator.operation();
-            calculator.displayValue = calculator.result;
-            calculator.updateDisplay();
-            calculator.operation = null;
-            calculator.result = null;
         }
     },
     
@@ -134,6 +158,7 @@ calculator.buttons.forEach(btn => {
         console.log(`Operation: ${calculator.operation}`);
         console.log(`Operand 2: ${calculator.operand2}`);
         console.log(`Result: ${calculator.result}`);
+        console.log('--');
     });
 });
 

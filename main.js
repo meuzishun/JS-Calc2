@@ -1,84 +1,41 @@
 calculator = {
     display: document.querySelector('.display'),
     buttons: [...document.querySelectorAll('.btn')],
-    miscBtns: [...document.querySelector('.misc').children],
-    digitBtns: [...document.querySelector('.digits').children],
-    operatorBtns: [...document.querySelector('.operators').children],
+    // miscBtns: [...document.querySelector('.misc').children],
+    // digitBtns: [...document.querySelector('.digits').children],
+    // operatorBtns: [...document.querySelector('.operators').children],
 
     displayValue: '0',
-    updateDisplay: function() {
-        this.display.innerText = this.displayValue;
-    },
-
+    displayState: "replace",
     operand1: null,
     operand2: null,
     operation: null,
     result: null,
 
-    clearOperand1: function() {
-        this.operand1 = null;
+    
+    updateDisplay: function() {
+        this.display.innerText = this.displayValue;
     },
-    clearOperand2: function() {
-        this.operand2 = null;
-    },
-    clearOperation: function() {
-        this.operation = null;
-    },
-    clearResult: function() {
-        this.result = null;
-    },
+    //TODO: write and implement functionality for displayState.
     resetAll: function() {
-        this.clearOperand1();
-        this.clearOperand2();
-        this.clearOperation();
-        this.clearResult();
+        this.operand1 = null;
+        this.operand2 = null;
+        this.operation = null;
+        this.result = null;
         this.displayValue = '0';
         this.updateDisplay();
     },
-    calculate: {
-        plus: function() {
-            calculator.result = +calculator.operand1 + +calculator.operand2;
-        },
-        minus: function() {
-            calculator.result = calculator.operand1 - calculator.operand2;
-        },
-        times: function() {
-            calculator.result = calculator.operand1 * calculator.operand2;
-        },
-        divide: function() {
-            calculator.result = calculator.operand1 / calculator.operand2;
-        },
-    },
+
     processInput: function(data) {
         if (data.digit) {
-            console.log(`digit ${data.digit}`);
             calculator.processDigit(data.digit);
         }
         if (data.misc) {
-            console.log(`misc ${data.misc}`);
+            calculator.processMisc(data.misc);
         }
         if (data.operation) {
-            console.log(`operation ${data.operation}`);
+            calculator.processOperation(data.operation);
         }
-    },
-    clear: function() {
-        calculator.resetAll();
-    },
-    sign: function() {
-        calculator.result = calculator.displayValue * -1;
-        calculator.displayValue = calculator.result;
-        calculator.updateDisplay();
-    },
-    percentage: function() {
-        calculator.result = calculator.displayValue * 0.01;
-        calculator.displayValue = calculator.result;
-        calculator.updateDisplay();
-    },
-    applyMisc: function(misc) {
-        
-    },
-    applyOperator: function(operation) {
-        calculator.operation = operation;
     },
     processDigit: function(digit) {
         if (calculator.displayValue === '0' && digit !== '.') {
@@ -88,20 +45,57 @@ calculator = {
         }
         calculator.updateDisplay();
     },
-
+    processMisc: function(misc) {
+        if (misc === 'clear') {
+            console.log(`processing ${misc}`);
+            this.operand1 = null;
+            this.operand2 = null;
+            this.operation = null;
+            this.result = null;
+            this.displayValue = '0';
+            this.updateDisplay();
+        }
+        if (misc === 'sign') {
+            console.log(`processing ${misc}`);
+            calculator.displayValue *= -1;
+            calculator.updateDisplay();
+        }
+        if (misc === 'percentage') {
+            console.log(`processing ${misc}`);
+            calculator.displayValue *= 0.01;
+            calculator.updateDisplay();
+        }
+    },
+    processOperation: function(operation) {
+        if (calculator.operation === null) {
+            calculator.operand1 = calculator.displayValue;
+            calculator.operation = calculator[operation];
+            calculator.displayValue = '0';
+        } else {
+            calculator.operand2 = calculator.displayValue;
+            calculator.operation();
+            calculator.displayValue = calculator.result;
+            calculator.updateDisplay();
+            calculator.operation = null;
+            calculator.result = null;
+        }
+    },
+    
     plus: function() {
-        calculator.operation = 'plus';
+        calculator.result = +calculator.operand1 + +calculator.operand2;
     },
     minus: function() {
-        calculator.operation = 'minus';
+        calculator.result = calculator.operand1 - calculator.operand2;
     },
     times: function() {
-        calculator.operation = 'times';
+        calculator.result = calculator.operand1 * calculator.operand2;
     },
     divide: function() {
-        calculator.operation = 'divide';
+        calculator.result = calculator.operand1 / calculator.operand2;
     },
-    equals: function() {},
+    calculate: function() {
+        
+    },
 }
 
 // calculator.digitBtns.forEach(btn => {
@@ -134,8 +128,12 @@ calculator.buttons.forEach(btn => {
     btn.addEventListener('click', (evt) => {
         const elem = evt.currentTarget;
         const data = elem.dataset;
-        // console.log(data);
         calculator.processInput(data);
+        console.log(`Display value: ${calculator.displayValue}`);
+        console.log(`Operand 1: ${calculator.operand1}`);
+        console.log(`Operation: ${calculator.operation}`);
+        console.log(`Operand 2: ${calculator.operand2}`);
+        console.log(`Result: ${calculator.result}`);
     });
 });
 
